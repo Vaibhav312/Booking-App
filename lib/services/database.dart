@@ -10,5 +10,10 @@ class DatabaseService{
     return await notesCollection.document(uid).setData({
       'notes':notesData,
     });
+
+
+  }
+  Stream<QuerySnapshot> get notesStream{
+    return notesCollection.snapshots();
   }
 }

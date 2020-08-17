@@ -119,7 +119,8 @@ Widget _submitButton(){
         loading=true;
       });
       _formKey.currentState.save();
-     dynamic result= await _auth.signWithEmailAndPasssword(emailValue, passwordValue);
+      dynamic result= await _auth.signWithEmailAndPasssword(emailValue, passwordValue);
+
       if (result==null){
         setState(() {
 
@@ -128,12 +129,13 @@ Widget _submitButton(){
         });
       }
       else{
-        print('signed in');
+        //print('signed in');
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Products(value: emailValue)),
+         // MaterialPageRoute(builder: (context) => Products(value: emailValue)),
+          MaterialPageRoute(builder: (context) => Products()),
         );
-        print(result.uid);
+       // print(result.uid);
       }
 
 

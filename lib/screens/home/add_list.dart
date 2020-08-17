@@ -1,4 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app/models/user.dart';
+import 'package:first_app/services/database.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AddList extends StatefulWidget {
   @override
@@ -6,12 +11,15 @@ class AddList extends StatefulWidget {
 }
 
 class _AddListState extends State<AddList> {
+  final FirebaseAuth _auth=FirebaseAuth.instance;
+
 
   List<String> listItems = [];
   TextEditingController textEditingController=new TextEditingController();
   GlobalKey<FormState> _globalKey=new GlobalKey<FormState>();
 
   void addItems(text){
+
     setState(() {
       listItems.add(text);
     });
@@ -42,6 +50,7 @@ class _AddListState extends State<AddList> {
     );
   }
   Widget _displayLists(){
+
     return Expanded(
         child: new ListView.builder
           (
@@ -80,11 +89,13 @@ class _AddListState extends State<AddList> {
   Widget _addListButton(){
     return RaisedButton(
       child: Text("Add"),
-    onPressed: (){
+    onPressed: () async{
+      
       setState(() {
         if(!_globalKey.currentState.validate()){
           return;
         }
+
         listItems.add(textEditingController.text);
         textEditingController.clear();
       });
@@ -94,8 +105,12 @@ class _AddListState extends State<AddList> {
 
   @override
   Widget build(BuildContext context) {
+
     return new Scaffold(
-        appBar: new AppBar(title: new Text("Add_List_Dynamically"),),
+        appBar: new AppBar(
+          title: new Text("Add_List_Dynamically"
+          ),
+        ),
         body: Container(
           padding: EdgeInsets.all(20.0),
           child: new Column(

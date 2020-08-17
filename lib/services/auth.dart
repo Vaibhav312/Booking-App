@@ -7,25 +7,28 @@ class AuthService{
   String data='';
 
   //create user object based on FireBaseUser
-  User _userFromFirebaseUser(FirebaseUser user){
+  User userFromFirebaseUser(FirebaseUser user){
     //print(user.email);
     data=user.email;
     return user !=null ? User(uid: user.uid,email : user.email) : null;
   }
 
   //auth change user stream
+
   Stream<User> get user{
     return _auth.onAuthStateChanged
-        .map(_userFromFirebaseUser);
+        .map(userFromFirebaseUser);
   }
 
-  //sign in with email & password
+
+
+    //sign in with email & password
   Future signWithEmailAndPasssword(String email,String password) async{
     try{
       AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser user=result.user;
 
-      return _userFromFirebaseUser(user);
+      return userFromFirebaseUser(user);
     }catch(e){
       print(e.toString());
     }
@@ -35,13 +38,14 @@ class AuthService{
     try{
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user=result.user;
-      
+
       await DatabaseService(uid: user.uid).updateUserData('Empty List');
-      
+
+
       UserUpdateInfo userUpdateInfo = new UserUpdateInfo();
       userUpdateInfo.displayName = name;
       user.updateProfile(userUpdateInfo);
-      return _userFromFirebaseUser(user);
+      return userFromFirebaseUser(user);
     }catch(e){
       print(e.toString());
       return null;
