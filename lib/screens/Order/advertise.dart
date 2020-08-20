@@ -11,6 +11,7 @@ class _AdvertiseState extends State<Advertise> {
     return ConstrainedBox(
       constraints: const BoxConstraints(minWidth: double.infinity),
       child: Container(
+
         height: 100.0,
          decoration: BoxDecoration(
           image: DecorationImage(

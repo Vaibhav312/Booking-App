@@ -1,28 +1,30 @@
 import 'package:first_app/screens/Order/products_details/electrician_details.dart';
+import 'package:first_app/screens/Order/styles/global_styles.dart';
 import 'package:flutter/material.dart';
 
 
-class ServicesList {
-  ServicesList({this.serviceName, this.icon});
+class Service {
   final String serviceName;
-  final String icon;
+  final IconData icon;
+  final int type;
+  Service({this.serviceName, this.icon,this.type});
+  
 }
 class ServicesCards extends StatelessWidget {
 
-  List<ServicesList> allServices = [
-    ServicesList(serviceName: 'Electrician', icon: 'ElectricianDetails'),
-    ServicesList(serviceName: 'Home Tution', icon: 'Icons.book'),
-    ServicesList(serviceName: 'Plumber', icon: 'Icons.bubble_chart'),
-    ServicesList(serviceName: 'OYO Taxi', icon: 'Icons.local_taxi'),
-    ServicesList(serviceName: 'News', icon: 'Icons.library_books'),
-    ServicesList(serviceName: 'Groceries', icon: 'Icons.fastfood'),
-
+  List<Service> allServices = [
+    Service(serviceName: 'Groceries', icon: Icons.fastfood,type:1),
+    Service(serviceName: 'Electrician', icon: Icons.lightbulb_outline,type:2),
+    Service(serviceName: 'Home Tution', icon: Icons.book,type:3),
+    Service(serviceName: 'Plumber', icon: Icons.bubble_chart,type:4),
+    Service(serviceName: 'Painters', icon: Icons.format_paint,type:5),
+    Service(serviceName: 'Doctors', icon: Icons.library_books,type:6),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 280.0,
+      height: 250.0,
       child: GridView.builder(
           itemCount: allServices.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -35,18 +37,22 @@ class ServicesCards extends StatelessWidget {
                 height: 80.0,
                 width: 80.0,
                 child: InkWell(
-
                   child: Card(
                     elevation: 10.0,
-                    color: Colors.yellow,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40.0),
                     ),
-                    child:Icon(Icons.account_circle),
+                    child:Icon(allServices[index].icon,
+                      size: 50.0,
+                    ),
                   ),
                 ),
               ),
-              Text(allServices[index].serviceName),
+              Text(allServices[index].serviceName,
+              style: TextStyle(
+                color: GlobalStyles.secondaryColor,
+              ),
+              ),
             ],
           )),
     );

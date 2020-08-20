@@ -1,3 +1,5 @@
+import 'package:first_app/screens/Order/styles/global_styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class EventList {
@@ -30,49 +32,40 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 180.0,
-      child: ListView.builder(
+      height: 160.0,
+      child: ListView.separated(
           itemCount: (data==2) ? 2 : allEvents.length,
           itemBuilder: (context, index) {
-            return Card(
-              elevation: 20.0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0)
-              ),
-              child: Container(
-                color: Colors.grey,
-                padding: EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Icon(Icons.event_available,size: 60.0,),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      // crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(allEvents[index].eventName,
-                          style: TextStyle(
-                              fontSize: 20.0,
-                              color: Colors.black54,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        Text(allEvents[index].description,
-                          style: TextStyle(
-                            fontSize: 15.0,
-                            color: Colors.black87,
-                          ),
-                        )
-                      ],
-                    )
-                  ],
+            return  ListTile(
+              title: Text(allEvents[index].eventName,
+                style: TextStyle(
+                    fontSize: 15.0,
+                    color: GlobalStyles.secondaryColor,
+                    fontWeight: FontWeight.bold,
                 ),
               ),
+              leading: Icon(Icons.event_available,size: 50.0,),
+              subtitle: Text(allEvents[index].description,
+                style: TextStyle(
+                  fontSize: 15.0,
+                  color: GlobalStyles.secondaryColor,
+                ),
+              ),
+              trailing: Icon(Icons.keyboard_arrow_right,
+                size: 30.0,
+                color: GlobalStyles.secondaryColor,
+              ),
             );
-          }
+          },
+        separatorBuilder: (context,index){
+            return Divider(
+              thickness: 2.0,
+              indent: 15,
+              endIndent: 15,
+              color: GlobalStyles.dividerColor,
+            );
+        },
+
       ),
     );
   }
