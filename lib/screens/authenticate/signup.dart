@@ -100,14 +100,14 @@ class _SignUpState extends State<SignUp> {
         if(value.isEmpty){
           return "Password is Required";
         }
-        if(!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)){
+        /*if(!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)){
           return '''Password should be 8 charcaters long and it contains:
                              Minimum 1 Upper case
                              Minimum 1 lowercase
                              Minimum 1 Numeric Number
                              Minimum 1 Special Character''';
 
-        }
+        }*/
         return null;
       },
       onSaved: (String value){

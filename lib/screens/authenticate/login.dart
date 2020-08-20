@@ -25,60 +25,60 @@ class _LoginState extends State<Login> {
   final AuthService _auth= AuthService();
 
 
-Widget _emailField(){
-  return TextFormField(
-    decoration: new InputDecoration(
-      border: new OutlineInputBorder(
-        borderRadius: const BorderRadius.all(
-          const Radius.circular(10.0),
+  Widget _emailField(){
+    return TextFormField(
+      decoration: new InputDecoration(
+        border: new OutlineInputBorder(
+          borderRadius: const BorderRadius.all(
+            const Radius.circular(10.0),
+          ),
         ),
+        filled: true,
+        hintText: "Enter email",
+        fillColor: Colors.white,
       ),
-      filled: true,
-      hintText: "Enter email",
-      fillColor: Colors.white,
-    ),
-    validator: (String value){
-      if(value.isEmpty){
-        return "Email is Required";
-      }
-      if (!RegExp(
-          r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
-          .hasMatch(value)) {
-        return 'Please enter a valid email Address';
-      }
-      return null;
-    },
-    onSaved: (String value) {
-      emailValue = value;
-    },
-    onChanged: (data){
-      setState(() {
-        email=data;
+      validator: (String value){
+        if(value.isEmpty){
+          return "Email is Required";
+        }
+        if (!RegExp(
+            r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+            .hasMatch(value)) {
+          return 'Please enter a valid email Address';
+        }
+        return null;
+      },
+      onSaved: (String value) {
+        emailValue = value;
+      },
+      onChanged: (data){
+        setState(() {
+          email=data;
 
-      });
-    },
-    keyboardType: TextInputType.emailAddress,
-  );
-}
-Widget _passwordField(){
-  return TextFormField(
-    decoration: new InputDecoration(
-      border: new OutlineInputBorder(
-        borderRadius: const BorderRadius.all(
-          const Radius.circular(10.0),
+        });
+      },
+      keyboardType: TextInputType.emailAddress,
+    );
+  }
+  Widget _passwordField(){
+    return TextFormField(
+      decoration: new InputDecoration(
+        border: new OutlineInputBorder(
+          borderRadius: const BorderRadius.all(
+            const Radius.circular(10.0),
+          ),
         ),
+        filled: true,
+        hintText: "Enter Password",
+        fillColor: Colors.white,
       ),
-      filled: true,
-      hintText: "Enter Password",
-      fillColor: Colors.white,
-    ),
-    keyboardType: TextInputType.text,
-    obscureText: true,
-    validator: (String value){
-     if(value.isEmpty){
-       return "Password is Required";
-     }
- /*   if(!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)){
+      keyboardType: TextInputType.text,
+      obscureText: true,
+      validator: (String value){
+        if(value.isEmpty){
+          return "Password is Required";
+        }
+        /*   if(!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)){
        return '''Password should be 8 charcaters long and it contains:
                              Minimum 1 Upper case
                              Minimum 1 lowercase
@@ -86,80 +86,80 @@ Widget _passwordField(){
                              Minimum 1 Special Character''';
 
      }*/
-     return null;
+        return null;
 
-    },
-    onSaved: (String value) {
-      passwordValue = value;
-    },
-  );
-}
-Widget _padding(){
-  return Padding(
-    padding: const EdgeInsets.only(top: 20.0),
-  );
-}
-Widget _submitButton(){
-  return  MaterialButton(
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10.0),
+      },
+      onSaved: (String value) {
+        passwordValue = value;
+      },
+    );
+  }
+  Widget _padding(){
+    return Padding(
+      padding: const EdgeInsets.only(top: 20.0),
+    );
+  }
+  Widget _submitButton(){
+    return  MaterialButton(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
 
-    ),
-    height: 50.0,
-    minWidth: 500.0,
-    color: Colors.green,
-    splashColor: Colors.teal,
-    textColor: Colors.white,
-    child: new Text("Sign In"),
-    onPressed: () async{
-      if(!_formKey.currentState.validate()){
-        return;
-      }
-      setState(() {
-        loading=true;
-      });
-      _formKey.currentState.save();
-      dynamic result= await _auth.signWithEmailAndPasssword(emailValue, passwordValue);
-
-      if (result==null){
+      ),
+      height: 50.0,
+      minWidth: 500.0,
+      color: Colors.green,
+      splashColor: Colors.teal,
+      textColor: Colors.white,
+      child: new Text("Sign In"),
+      onPressed: () async{
+        if(!_formKey.currentState.validate()){
+          return;
+        }
         setState(() {
-
-          error='Could not Sign in with those credentials';
-          loading=false;
+          loading=true;
         });
-      }
-      else{
-        //print('signed in');
+        _formKey.currentState.save();
+        dynamic result= await _auth.signWithEmailAndPasssword(emailValue, passwordValue);
+
+        if (result==null){
+          setState(() {
+
+            error='Could not Sign in with those credentials';
+            loading=false;
+          });
+        }
+        else{
+          //print('signed in');
+          Navigator.pushReplacement(
+            context,
+            // MaterialPageRoute(builder: (context) => Products(value: emailValue)),
+            MaterialPageRoute(builder: (context) => Products()),
+          );
+          // print(result.uid);
+        }
+
+
+      },
+    );
+  }
+  Widget _registerButton(){
+    return  MaterialButton(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+
+      ),
+      color: Colors.green,
+      splashColor: Colors.teal,
+      textColor: Colors.white,
+      child: new Text("Sign Up"),
+      onPressed: () {
         Navigator.pushReplacement(
           context,
-         // MaterialPageRoute(builder: (context) => Products(value: emailValue)),
-          MaterialPageRoute(builder: (context) => Products()),
+          MaterialPageRoute(builder: (context) => SignUp()),
         );
-       // print(result.uid);
-      }
-
-
-    },
-  );
-}
-Widget _registerButton(){
-  return  MaterialButton(
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10.0),
-
-    ),
-    color: Colors.green,
-    splashColor: Colors.teal,
-    textColor: Colors.white,
-    child: new Text("Sign Up"),
-    onPressed: () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => SignUp()),
-      );
-    },
-  );
-}
+      },
+    );
+  }
 
 
   @override
@@ -234,16 +234,16 @@ Widget _registerButton(){
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                              Text("Create Account",
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  color: Colors.blueGrey,
-                                  fontWeight: FontWeight.bold,
+                                Text("Create Account",
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    color: Colors.blueGrey,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              _registerButton(),
+                                _registerButton(),
 
-                            ],),
+                              ],),
                           ),
                         ),
                         SizedBox(height: 12.0),

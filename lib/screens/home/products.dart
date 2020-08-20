@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app/models/user.dart';
+import 'package:first_app/screens/Order/home_page.dart';
 import 'package:first_app/screens/authenticate/login.dart';
 import 'package:first_app/services/auth.dart';
 import 'package:first_app/services/database.dart';
@@ -16,9 +17,6 @@ import 'file:///E:/flutterApps/first_app/lib/screens/home/week_view_events.dart'
 class Products extends StatefulWidget {
   String value;
   Products({Key key,@required this.value}) : super(key : key);
-
-
-
 
   @override
   _ProductsState createState() => _ProductsState(value: value);
@@ -52,6 +50,7 @@ class _ProductsState extends State<Products> {
 
   @override
   Widget build(BuildContext context) {
+    print(value);
     return StreamProvider<QuerySnapshot>.value(
       value: DatabaseService().notesStream,
       child: Scaffold(
@@ -129,6 +128,14 @@ class _ProductsState extends State<Products> {
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Login()));
                 },
               ),
+              ListTile(
+                leading: Icon(Icons.person),
+                title: Text('Order'),
+                onTap: ()  {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Order()));
+                },
+              ),
+
             ],
           ),
         ),

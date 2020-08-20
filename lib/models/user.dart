@@ -7,6 +7,6 @@ class User{
         this.uid,
         this.email,
 
-  }
-  );
+      }
+      );
 }
